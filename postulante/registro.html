@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - True Talent Hub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-container" style="max-width: 500px;">
+            <div class="logo">
+                <div class="logo-mark">
+                        T
+                        <div class="red-dot"></div>
+                    </div>
+                    <span class="logo-text">True Talent Hub</span>
+            </div>
+            
+            <div class="login-header">
+                <h1>Create an Account</h1>
+                <p>Join us as a candidate.</p>
+            </div>
+
+            <form class="login-form">
+                <div class="input-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+
+                <div class="input-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="+1 234 567 8900">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <div class="input-group">
+                    <label for="vacante">Vacante a la que postula</label>
+                    <select id="vacante" name="vacante" required style="width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 0.95rem; background-color: #fafafa; appearance: auto;">
+                        <option value="Media Buyer Coordinator">Media Buyer Coordinator</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="cvUrl">CV / Portfolio URL</label>
+                    <input type="url" id="cvUrl" name="cvUrl" required placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+
+                <button type="submit" class="btn-primary" id="btn-register">Register</button>
+            </form>
+            
+            <div class="register-prompt">
+                Already have an account? <a href="../index.html">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        True Talent Hub powered by True Digital Media® 2026
+    </footer>
+
+    <script type="module" src="../js/firebase-config.js"></script>
+    <script type="module" src="../js/registro.js"></script>
+</body>
+</html>

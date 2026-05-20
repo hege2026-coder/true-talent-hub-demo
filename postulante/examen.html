@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Técnico - True Talent Hub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .exam-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            width: 100%;
+        }
+        .exam-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--border-color);
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 12.5%; /* 1 of 8 */
+            background-color: var(--black);
+            transition: width 0.3s ease;
+        }
+        .section-container {
+            display: none;
+        }
+        .section-container.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question {
+            margin-bottom: 1.5rem;
+        }
+        .question label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+        .question textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            background-color: #fafafa;
+            transition: all 0.2s ease;
+            line-height: 1.5;
+        }
+        .question textarea:focus {
+            outline: none;
+            border-color: var(--black);
+            background-color: var(--white);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+        .exam-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-wrapper">
+        <div class="exam-container">
+            <div class="exam-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div class="logo" style="margin-bottom: 0;">
+                    <div class="logo-mark">
+                        T
+                        <div class="red-dot"></div>
+                    </div>
+                    <span class="logo-text">True Talent Hub</span>
+                </div>
+                <div class="timer-container" style="font-size: 1.25rem; font-weight: 600; color: var(--text-main); background: #fafafa; padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.5rem;">
+                    ⏱ <span id="timer-display">00:00</span>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span id="section-counter" style="font-size: 0.9rem; font-weight: 500; color: var(--text-muted);">Sección 1 de 9</span>
+            </div>
+            <div class="progress-bar-container" style="margin-bottom: 2rem;">
+                <div class="progress-bar" id="exam-progress"></div>
+            </div>
+
+            <div id="sections-container">
+                <!-- SECCIÓN 1 -->
+                <div class="section-container active" id="section-1">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 1: Fundamentos de Coordinación Operativa (10 puntos)</h2>
+                    <div class="question">
+                        <label>1.1. ¿Cuáles son las 3 diferencias más importantes entre el rol de un Media Buyer y un Media Buyer Coordinator? ¿Cómo cambia tu día a día al pasar de ejecutor a coordinador? (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>1.2. Define qué es un SLA operativo en el contexto de media buying. Da 3 ejemplos concretos de SLAs que monitorearías en tu equipo (con valores objetivo realistas). (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>1.3. Acabas de asumir el rol de coordinador. Llevas 1 semana. Detectas que el equipo no tiene un proceso claro de QA antes de lanzar campañas. ¿Cuáles son los primeros 5 elementos que incluirías en un checklist obligatorio pre-lanzamiento? (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 2 -->
+                <div class="section-container" id="section-2">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 2: Quality Assurance y Estandarización (15 puntos)</h2>
+                    <div class="question">
+                        <label>2.1. Diseña una naming convention para campañas que debe ser usada por todo el equipo. La convención debe servir tanto para Google Ads como para Meta y permitir parseo en reportería. Considera: cliente, plataforma, objetivo, tipo de campaña, audiencia, geo, fecha. Da 2 ejemplos completos. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>2.2. Un Media Buyer junior de tu equipo lanza una campaña sin etiquetar correctamente los eventos en el píxel del cliente. La detectas el día 3 (la campaña ya gastó $2,500 USD). ¿Cuál es la acción correcta? (A: Esperar al fin de semana / B: Pausar inmediatamente, documentar y reportar / C: Corregir silenciosamente / D: Reportar al cliente inmediatamente). Justifica brevemente tu elección. (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>2.3. Lista 5 errores comunes que un Media Buyer Coordinator debe estar atento a detectar al revisar setups de campañas (mezcla de Google Ads y Meta). (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>2.4. ¿Cómo construirías un proceso de auditoría semanal de campañas activas para tu squad? Describe: frecuencia, formato, qué se revisa, responsables, y qué pasa cuando se encuentran errores. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 3 -->
+                <div class="section-container" id="section-3">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 3: Gestión de Equipo, Coaching y Onboarding (15 puntos)</h2>
+                    <div class="question">
+                        <label>3.1. Llega un nuevo Media Buyer junior a tu equipo. Tiene experiencia básica en Meta (1 año), pero nunca ha tocado Google Ads ni programmatic. Diseña su plan de onboarding para las primeras 2 semanas. Sé específico sobre actividades por día/semana. (5 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>3.2. Uno de tus Media Buyers tiene 2 años en la agencia, conocimiento sólido, pero en el último mes ha cometido 3 errores de implementación: eventos mal configurados, presupuesto duplicado y naming inconsistente. ¿Cómo manejas esta conversación? ¿Cuál es tu plan de acción? (5 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>3.3. Dos Media Buyers de tu equipo (ambos seniors) discuten porque comparten un cliente. Uno acusa al otro de canibalizar presupuesto y audiencia. La discusión afecta el ambiente del squad. ¿Cómo manejas la situación? (5 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 4 -->
+                <div class="section-container" id="section-4">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 4: Gestión de Pacing y Presupuestos (12 puntos)</h2>
+                    <div class="question">
+                        <label>4.1. Una cuenta tiene presupuesto de $50,000 USD para el mes de mayo (31 días). Al día 15 lleva gastados $32,000 USD. a) ¿Está sobre-pacing o sub-pacing? ¿Por cuánto en %? b) ¿Qué acciones concretas tomarías y a quién comunicarías? (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>4.2. ¿Qué es el pacing presupuestario y por qué es uno de los KPIs principales de un coordinador? Menciona 4 razones por las que una cuenta puede estar fuera de pacing. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>4.3. Manejas un squad con 8 cuentas activas. En tu revisión detectas: 3 cuentas están sub-pacing 20%+, 2 cuentas sobre-pacing 15%+, el resto estable. Tienes 1 hora antes de la reunión con el Squad Lead. ¿Cómo priorizas? ¿Qué reportas y qué resuelves después? (5 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 5 -->
+                <div class="section-container" id="section-5">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 5: Resolución de Incidencias y Escalación (10 puntos)</h2>
+                    <div class="question">
+                        <label>5.1. Un Media Buyer descubre el viernes a las 5pm que el píxel del cliente más grande no dispara el evento Purchase por 4 días. Las campañas optimizan a ciegas. ¿Cuál es tu protocolo? ¿A quién contactas, en qué orden, qué documentas, qué le dices al cliente? (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>5.2. ¿Cuándo escalas un incidente al Squad Lead vs cuándo lo resuelves tú directamente? Da 3 ejemplos concretos de cada caso. (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>5.3. Meta tiene una caída global de 6 horas. Campañas afectadas. ¿Qué comunicas, a quién, en qué orden y plazos? ¿Qué documentas para post-mortem? (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 6 -->
+                <div class="section-container" id="section-6">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 6: Conocimiento Técnico Nivel Supervisión (13 puntos)</h2>
+                    <div class="question">
+                        <label>6.1. ¿Cuál es la diferencia entre Quality Score (Google Ads) y Quality/Engagement Ranking (Meta)? ¿Cómo los usas para evaluar salud sin entrar campaña por campaña? (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>6.2. Tu equipo gestiona Google Ads, Meta y DV360. ¿Qué 5 cosas validarías para asegurar medición y tracking consistente entre plataformas? (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>6.3. Un cliente exige brand safety estricta. Lista configuraciones clave a validar en Google Ads, Meta Ads y DV360. (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>6.4. Cliente dice que el ROAS en su BI no coincide con las plataformas (Meta/Google son más altos). Describe paso a paso cómo diagnosticas la discrepancia y a quién involucras. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 7 -->
+                <div class="section-container" id="section-7">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 7: Coordinación Interfuncional (10 puntos)</h2>
+                    <div class="question">
+                        <label>7.1. ¿Cómo coordinas con Planning para asegurar que un plan de medios se baje correctamente al equipo? Describe flujo, entregables y qué pasa ante discrepancias. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>7.2. ¿Qué información necesitas del equipo de Data? Lista 4 cosas concretas y frecuencia. (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>7.3. ¿Cómo trabajas con PMO? ¿Qué entregables provees y qué esperas de ellos? (Si no has trabajado con PMO, describe cómo te organizarías sin ellos). (3 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 8 -->
+                <div class="section-container" id="section-8">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">SECCIÓN 8: Caso Práctico Integral (25 puntos)</h2>
+                    <div class="question" style="background: #fafafa; padding: 1rem; border-left: 4px solid var(--black); margin-bottom: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+                        <strong>Contexto:</strong> Eres el nuevo Coordinator de un squad. Tienes 5 Media Buyers (2 seniors, 2 mid, 1 junior). 12 cuentas. Inversión: $850,000 USD (Meta/Google/DV360). Problemas detectados en semana 1: No hay naming estandarizado; 3 cuentas con tracking inconsistente; Junior abrumado con 3 cuentas desde día 1; 2 cuentas sobre-pacing 20%+ sin avisar a cliente; 60% de certificaciones vencidas; No hay procesos documentados; Seniors trabajan en silos.
+                    </div>
+                    <div class="question">
+                        <label>8.1. Priorización: De todos los problemas, ¿cuáles son tus 3 prioridades absolutas para la semana 1? Justifica. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>8.2. Plan 30 días: Diseña tu plan con hitos claros por semana (1 a 4). ¿Qué entregables tendrás al mes? (5 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>8.3. Equipo: ¿Cómo redistribuyes las 12 cuentas? ¿Qué haces con el junior y con los seniors en silos? (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>8.4. Procesos: Describe los 3 procesos más críticos a implementar en el primer mes y CÓMO lo harás. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>8.5. Métricas: Define 5 indicadores concretos con valor objetivo para medir tu éxito al mes 1. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>8.6. Comunicación: Redacta brevemente el mensaje inicial de tu primera reunión para comunicar cambios sin generar resistencia. (4 pts)</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 9: Autoevaluación -->
+                <div class="section-container" id="section-9">
+                    <h2 class="login-header" style="text-align: left; margin-bottom: 1.5rem;">Autoevaluación (No puntúa)</h2>
+                    <div class="question">
+                        <label>¿Cuántos años de experiencia tienes en medios digitales y liderando equipos?</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..." style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="question">
+                        <label>¿Cuál es el tamaño de equipo más grande que has coordinado y presupuesto mensual?</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..." style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="question">
+                        <label>¿Qué plataformas dominas a nivel experto y cuáles intermedio?</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..." style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="question">
+                        <label>¿Certificaciones activas?</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..." style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="question">
+                        <label>¿Herramientas de gestión (Asana, Monday, etc.) que dominas?</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..." style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="question">
+                        <label>Cuéntanos una situación de equipo difícil y cómo la resolviste.</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label>¿Qué te motiva del rol de Coordinator vs seguir siendo Media Buyer ejecutor?</label>
+                        <textarea placeholder="Escribe tu respuesta aquí..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-actions">
+                <button type="button" class="btn-primary" style="width: auto; padding: 0.8rem 2rem;" id="btn-next">Siguiente Sección</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        True Talent Hub powered by True Digital Media® 2026
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '../js/firebase-config.js';
+        import { doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Lógica de navegación de secciones
+        let currentSection = 1;
+        const totalSections = 9;
+        const btnNext = document.getElementById('btn-next');
+        const progressBar = document.getElementById('exam-progress');
+        const sectionCounter = document.getElementById('section-counter');
+        
+        let timeElapsed = 0; // tiempo en segundos
+        let timerInterval = null;
+        let activeUser = null;
+        let finalTimeElapsed = 0;
+        let isSubmitting = false;
+        let auditLogs = [];
+
+        const timerDisplay = document.getElementById('timer-display');
+
+        function updateTimerDisplay() {
+            let minutes = Math.floor(timeElapsed / 60);
+            let seconds = timeElapsed % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                activeUser = user;
+                try {
+                    const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+                    if (docSnap.exists() && docSnap.data().progreso) {
+                        const progreso = docSnap.data().progreso;
+                        
+                        // Restaurar respuestas
+                        const textareas = document.querySelectorAll('.question textarea');
+                        if (progreso.respuestas) {
+                            progreso.respuestas.forEach(resp => {
+                                if (resp.id && textareas[resp.id - 1]) {
+                                    textareas[resp.id - 1].value = resp.respuesta;
+                                }
+                            });
+                        }
+
+                        // Restaurar tiempo
+                        timeElapsed = progreso.tiempo || 0;
+                        updateTimerDisplay();
+
+                        // Restaurar auditLogs
+                        if (progreso.auditLogs) {
+                            auditLogs = progreso.auditLogs;
+                        }
+
+                        // Restaurar sección
+                        if (progreso.seccion > 1 && progreso.seccion <= totalSections) {
+                            document.getElementById(`section-1`).classList.remove('active');
+                            currentSection = progreso.seccion;
+                            document.getElementById(`section-${currentSection}`).classList.add('active');
+                            progressBar.style.width = `${(currentSection / totalSections) * 100}%`;
+                            sectionCounter.textContent = `Sección ${currentSection} de ${totalSections}`;
+                            if (currentSection === totalSections) {
+                                btnNext.textContent = 'Finalizar Examen';
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error cargando progreso", e);
+                }
+
+                // Iniciar cronómetro
+                timerInterval = setInterval(() => {
+                    timeElapsed++;
+                    updateTimerDisplay();
+                }, 1000);
+
+            } else {
+                alert("No estás autenticado. Redirigiendo al inicio de sesión...");
+                window.location.href = '../index.html';
+            }
+        });
+
+        btnNext.addEventListener('click', async () => {
+            if (currentSection < totalSections) {
+                // Autoguardado antes de avanzar
+                const respuestasAct = [];
+                document.querySelectorAll('.question').forEach((q, index) => {
+                    const label = q.querySelector('label');
+                    const textarea = q.querySelector('textarea');
+                    if (label && textarea) {
+                        respuestasAct.push({
+                            id: index + 1,
+                            pregunta: label.innerText,
+                            respuesta: textarea.value
+                        });
+                    }
+                });
+
+                if (activeUser) {
+                    try {
+                        await updateDoc(doc(db, "usuarios", activeUser.uid), {
+                            progreso: {
+                                respuestas: respuestasAct,
+                                tiempo: timeElapsed,
+                                seccion: currentSection + 1,
+                                auditLogs: auditLogs,
+                                ultimaActualizacion: new Date().toISOString()
+                            }
+                        });
+                        console.log("Autoguardado exitoso.");
+                    } catch (e) {
+                        console.error("Error autoguardando progreso", e);
+                    }
+                }
+
+                // Ocultar sección actual
+                document.getElementById(`section-${currentSection}`).classList.remove('active');
+                
+                // Avanzar
+                currentSection++;
+                
+                // Mostrar nueva sección
+                document.getElementById(`section-${currentSection}`).classList.add('active');
+                
+                // Actualizar barra de progreso y contador
+                progressBar.style.width = `${(currentSection / totalSections) * 100}%`;
+                sectionCounter.textContent = `Sección ${currentSection} de ${totalSections}`;
+                
+                // Cambiar texto de botón si es la última
+                if (currentSection === totalSections) {
+                    btnNext.textContent = 'Finalizar Examen';
+                }
+            } else {
+                if (timerInterval) clearInterval(timerInterval);
+                finalTimeElapsed = timeElapsed; // Guardar el tiempo final
+                console.log(`Examen finalizado. Tiempo total acumulado: ${finalTimeElapsed} segundos.`);
+                
+                const user = activeUser;
+                if (!user) {
+                    alert("No se ha detectado una sesión activa. Por favor inicia sesión.");
+                    return;
+                }
+
+                btnNext.disabled = true;
+                btnNext.textContent = 'Guardando y enviando...';
+                isSubmitting = true;
+
+                // Recopilar todas las respuestas
+                const respuestas = [];
+                document.querySelectorAll('.question').forEach((q, index) => {
+                    const label = q.querySelector('label');
+                    const textarea = q.querySelector('textarea');
+                    if (label && textarea) {
+                        respuestas.push({
+                            id: index + 1,
+                            pregunta: label.innerText,
+                            respuesta: textarea.value
+                        });
+                    }
+                });
+
+                try {
+                    // Actualizar el documento del usuario en Firestore
+                    await updateDoc(doc(db, "usuarios", user.uid), {
+                        evaluacion: {
+                            tiempoTotalSegundos: finalTimeElapsed,
+                            respuestas: respuestas,
+                            auditLogs: auditLogs,
+                            fechaEnvio: new Date().toISOString()
+                        }
+                    });
+                    alert(`Examen finalizado exitosamente. Tiempo total: ${Math.floor(finalTimeElapsed / 60)} minutos y ${finalTimeElapsed % 60} segundos. Tus respuestas han sido guardadas.`);
+                    window.location.href = 'gracias.html'; // Redirigir a vista de gracias
+                } catch (error) {
+                    console.error("Error al guardar la evaluación:", error);
+                    alert("Ocurrió un error al enviar el examen. Código: " + error.code);
+                    btnNext.disabled = false;
+                    btnNext.textContent = 'Finalizar Examen';
+                }
+            }
+        });
+
+        // ==========================================
+        // Fair Play (Anti-trampas)
+        // ==========================================
+        let incidentes = 0;
+
+        async function saveIncident(logMsg) {
+            incidentes++;
+            const log = `${logMsg}: ${new Date().toLocaleString()}`;
+            auditLogs.push(log);
+            console.warn(`[FairPlay] Incidente registrado: ${logMsg}. Total incidentes: ${incidentes}`);
+            if (activeUser && !isSubmitting) {
+                try {
+                    // Actualizamos auditLogs dentro del objeto progreso
+                    await updateDoc(doc(db, "usuarios", activeUser.uid), {
+                        "progreso.auditLogs": auditLogs
+                    });
+                } catch(e) { 
+                    // Si el objeto progreso aún no existe (porque no ha avanzado), lo creamos
+                    try {
+                         await updateDoc(doc(db, "usuarios", activeUser.uid), {
+                            progreso: { auditLogs: auditLogs, tiempo: timeElapsed, seccion: currentSection }
+                         });
+                    } catch(err) { console.error("Error guardando incidente", err); }
+                }
+            }
+        }
+
+        // 1. Bloquear evento 'paste' en todos los textareas
+        document.addEventListener('paste', (e) => {
+            if (e.target && e.target.tagName.toLowerCase() === 'textarea') {
+                e.preventDefault();
+                if (!isSubmitting) {
+                    saveIncident("Intento de Pegado (Paste)");
+                    alert('⚠️ Infracción: No está permitido pegar contenido durante la evaluación.');
+                }
+            }
+        });
+
+        // 2. Escuchar evento 'visibilitychange' (cambio de pestaña/ventana)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && !isSubmitting) {
+                saveIncident("Abandono de pestaña o minimizado");
+                alert('⚠️ Infracción detectada: Has cambiado de pestaña o minimizado la ventana. Este incidente ha sido registrado y puede invalidar tu evaluación técnica.');
+            }
+        });
+
+        // 3. Bloquear evento 'copy'
+        document.addEventListener('copy', (e) => {
+            e.preventDefault();
+            if (!isSubmitting) {
+                saveIncident("Intento de copia (Copy)");
+                alert('⚠️ Infracción: No está permitido copiar el contenido del examen.');
+            }
+        });
+
+        // 4. Bloquear clic derecho (contextmenu)
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            console.warn(`[FairPlay] Clic derecho bloqueado.`);
+        });
+
+        // 5. Detectar recarga o cierre
+        window.addEventListener('beforeunload', (e) => {
+            if (!isSubmitting) {
+                const log = `Recarga o cierre de página: ${new Date().toLocaleString()}`;
+                auditLogs.push(log);
+            }
+        });
+    </script>
+</body>
+</html>

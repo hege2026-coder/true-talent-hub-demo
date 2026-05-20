@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - True Talent Hub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .admin-wrapper {
+            padding: 3rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .logout-link {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .logout-link:hover { color: var(--accent-red); }
+        
+        /* Top 3 Section */
+        .top-candidates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .top-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+        .top-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background-color: var(--black);
+        }
+        .top-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .top-card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+        .top-card .score { font-size: 1.5rem; font-weight: 600; color: var(--accent-red); margin-top: 1rem; }
+        
+        /* Filters */
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .filter-group { display: flex; gap: 1rem; align-items: center; }
+        .filter-group select, .filter-group button {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: inherit;
+            background: #fafafa;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .filter-group button:hover { background: #f0f0f0; }
+        
+        /* Table */
+        .table-container {
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th { font-weight: 500; color: var(--text-muted); font-size: 0.9rem; background: #fafafa; }
+        tbody tr { cursor: pointer; transition: background 0.2s; }
+        tbody tr:hover { background: #fdfdfd; }
+        .status-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .status-nuevo { background: #e0f2fe; color: #0284c7; }
+        .status-progreso { background: #fef3c7; color: #d97706; }
+        .status-completado { background: #dcfce7; color: #15803d; }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(2px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: var(--white);
+            width: 100%; max-width: 800px;
+            max-height: 90vh;
+            border-radius: 12px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        .modal-header {
+            padding: 2rem; border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; background: var(--white); z-index: 10;
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .modal-close {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);
+        }
+        .modal-body { padding: 2rem; }
+        
+        .candidate-header-info p { margin-bottom: 0.3rem; color: var(--text-muted); }
+        .candidate-header-info strong { color: var(--text-main); }
+        .cv-link { color: var(--accent-red); text-decoration: none; font-weight: 500; display: inline-block; margin-top: 0.5rem; }
+        
+        .metrics-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;
+        }
+        .metric-box {
+            background: #fafafa; border: 1px solid var(--border-color);
+            padding: 1.5rem; border-radius: 8px; text-align: center;
+        }
+        .metric-box h4 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 400; }
+        .metric-box .value { font-size: 1.8rem; font-weight: 600; color: var(--black); }
+        
+        .audit-box {
+            margin: 2rem 0; padding: 1.5rem; border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .audit-clean { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+        .audit-issues { background: #fff1f2; border-color: #fecdd3; color: var(--accent-red); }
+        .audit-issues ul { margin-top: 0.5rem; margin-left: 1.5rem; font-size: 0.9rem; }
+        
+        .answers-section h3 { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        .answer-item { margin-bottom: 2rem; }
+        .answer-item h4 { font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.4; }
+        .answer-item p { 
+            background: #fafafa; padding: 1.5rem; border-radius: 6px; 
+            font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);
+            white-space: pre-wrap;
+            border-left: 3px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <div class="header-row">
+            <div class="logo" style="margin-bottom: 0;">
+                <div class="logo-mark">
+                    T
+                    <div class="red-dot"></div>
+                </div>
+                <span class="logo-text">True Talent Hub <span style="font-size: 0.5em; color: var(--accent-red);">ADMIN</span></span>
+            </div>
+            <a id="btn-logout" class="logout-link">Cerrar sesión</a>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem; font-weight: 500;">Top 3 Aspirantes</h2>
+        <div class="top-candidates" id="top-candidates-container">
+            <p style="color: var(--text-muted);">Cargando datos de Firestore...</p>
+        </div>
+
+        <div class="controls-row">
+            <div class="filter-group">
+                <label style="font-weight: 500;">Estado:</label>
+                <select id="filter-status">
+                    <option value="all">Todos</option>
+                    <option value="completado">Completado</option>
+                    <option value="progreso">En progreso</option>
+                    <option value="nuevo">Nuevo</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <button id="sort-score">Mayor Calificación</button>
+                <button id="sort-time">Menor Tiempo</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Vacante</th>
+                        <th>Fecha de Registro</th>
+                        <th>Tiempo Neto</th>
+                        <th>Score</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="candidates-table-body">
+                    <tr><td colspan="6" style="text-align: center;">Cargando postulantes...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="admin-management-section" style="display: none; margin-top: 3rem; background: var(--white); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+            <h2 style="margin-bottom: 1.5rem; font-weight: 500;">Gestión de Evaluadores</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Crea nuevas cuentas con rol de evaluador. Estas cuentas podrán ver y calificar candidatos, pero no crear otros evaluadores.</p>
+            <form id="evaluator-form" style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 0.3rem;">Nombre Completo</label>
+                    <input type="text" id="ev-name" required style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 0.3rem;">Correo Electrónico</label>
+                    <input type="email" id="ev-email" required style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 0.3rem;">Contraseña</label>
+                    <input type="password" id="ev-password" required style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div>
+                    <button type="submit" id="btn-create-ev" class="btn-primary" style="padding: 0.8rem 1.5rem; height: 100%;">Crear Evaluador</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Candidato -->
+    <div class="modal-overlay" id="candidate-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="candidate-header-info" id="modal-header-info">
+                    <!-- Inyectado por JS -->
+                </div>
+                <button class="modal-close" id="btn-close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Inyectado por JS -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        True Talent Hub powered by True Digital Media® 2026
+    </footer>
+
+    <script type="module" src="../js/admin.js"></script>
+</body>
+</html>

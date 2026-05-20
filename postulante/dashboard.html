@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - True Talent Hub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            width: 100%;
+        }
+        .dashboard-container {
+            width: 100%;
+            max-width: 800px;
+        }
+        .welcome-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+        }
+        .logo-small {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+        }
+        .logout-link {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .logout-link:hover {
+            color: var(--accent-red);
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+        .vacancy-card {
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .vacancy-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        .vacancy-info h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        .vacancy-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .btn-action {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-active {
+            background-color: var(--accent-red);
+            color: var(--white);
+            border: none;
+        }
+        .btn-active:hover {
+            background-color: #d1083f;
+            transform: translateY(-1px);
+        }
+        .btn-disabled {
+            background-color: #f0f0f0;
+            color: #999;
+            border: 1px solid #ddd;
+            cursor: not-allowed;
+        }
+        #loader {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+        #dashboard-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div class="dashboard-container">
+            
+            <div id="loader">Cargando tu perfil...</div>
+
+            <div id="dashboard-content" class="welcome-card">
+                <div class="header-row">
+                    <div class="logo logo-small">
+                        <div class="logo-mark">
+                        T
+                        <div class="red-dot"></div>
+                    </div>
+                    <span class="logo-text">True Talent Hub</span>
+                    </div>
+                    <a id="btn-logout" class="logout-link">Cerrar sesión</a>
+                </div>
+
+                <div class="login-header" style="text-align: left; margin-bottom: 3rem;">
+                    <h1 id="user-greeting">Hola, ...</h1>
+                    <p>Bienvenido a tu panel de candidato.</p>
+                </div>
+
+                <div class="active-applications">
+                    <h2 class="section-title">Tus Postulaciones Activas</h2>
+                    <div class="vacancy-card">
+                        <div class="vacancy-info">
+                            <h3 id="vacancy-title">Cargando vacante...</h3>
+                            <p>Fecha de registro: <span id="vacancy-date">...</span></p>
+                        </div>
+                        <div id="action-container">
+                            <!-- El botón se inyecta por JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        True Talent Hub powered by True Digital Media® 2026
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '../js/firebase-config.js';
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const loader = document.getElementById('loader');
+        const content = document.getElementById('dashboard-content');
+        const greeting = document.getElementById('user-greeting');
+        const vacancyTitle = document.getElementById('vacancy-title');
+        const vacancyDate = document.getElementById('vacancy-date');
+        const actionContainer = document.getElementById('action-container');
+        const btnLogout = document.getElementById('btn-logout');
+
+        btnLogout.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = '../index.html';
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const docRef = doc(db, "usuarios", user.uid);
+                    const docSnap = await getDoc(docRef);
+
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        
+                        // Set Greeting
+                        greeting.textContent = `Hola, ${data.nombre_completo}`;
+                        
+                        // Set Vacancy Info
+                        vacancyTitle.textContent = data.vacante || 'Sin vacante especificada';
+                        if (data.timestamp) {
+                            const date = new Date(data.timestamp);
+                            vacancyDate.textContent = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+                        }
+
+                        // Determine Button State
+                        if (data.evaluacion) {
+                            // Evaluación ya existe
+                            actionContainer.innerHTML = `
+                                <button class="btn-action btn-disabled" disabled style="background-color: #f0f0f0; color: #999;">
+                                    Prueba Completada - En revisión
+                                </button>
+                            `;
+                        } else if (data.progreso) {
+                            // Tiene progreso guardado
+                            actionContainer.innerHTML = `
+                                <a href="instrucciones.html" class="btn-action" style="background-color: var(--black); color: var(--white);">
+                                    Continuar prueba
+                                </a>
+                            `;
+                        } else {
+                            // No ha hecho evaluación ni tiene progreso
+                            actionContainer.innerHTML = `
+                                <a href="instrucciones.html" class="btn-action" style="background-color: var(--black); color: var(--white);">
+                                    Aplicar prueba: ${data.vacante}
+                                </a>
+                            `;
+                        }
+
+                        loader.style.display = 'none';
+                        content.style.display = 'block';
+
+                    } else {
+                        console.log("No existe el perfil de usuario en Firestore.");
+                        alert("Perfil no encontrado.");
+                        window.location.href = '../index.html';
+                    }
+                } catch (error) {
+                    console.error("Error al obtener datos:", error);
+                    alert("Error cargando el dashboard.");
+                }
+            } else {
+                // No user is signed in
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>
