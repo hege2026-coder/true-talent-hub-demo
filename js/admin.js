@@ -219,7 +219,7 @@ sortTimeBtn.addEventListener('click', () => {
 });
 
 btnCloseModal.addEventListener('click', () => modal.classList.remove('active'));
-modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+// modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
 function openModal(uid) {
     currentCandidate = candidates.find(c => c.uid === uid);
@@ -229,8 +229,11 @@ function openModal(uid) {
         <h2 style="margin-bottom: 0.5rem;">${currentCandidate.nombre_completo}</h2>
         <p><strong>Vacante:</strong> ${currentCandidate.vacante || 'N/A'}</p>
         <p><strong>Email:</strong> ${currentCandidate.email}</p>
-        <p><strong>Teléfono:</strong> N/A (No solicitado)</p>
-        ${currentCandidate.cvUrl ? `<a href="${currentCandidate.cvUrl}" target="_blank" class="cv-link">Abrir Currículum &rarr;</a>` : '<p style="color: var(--text-muted); margin-top: 0.5rem;">Sin CV adjunto</p>'}
+        <p><strong>Teléfono:</strong> ${currentCandidate.telefono || 'N/A'}</p>
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            ${currentCandidate.linkedinUrl ? `<a href="${currentCandidate.linkedinUrl}" target="_blank" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem; text-decoration: none; display: inline-block;">Ver perfil de LinkedIn</a>` : ''}
+            ${currentCandidate.cv_filename ? `<span style="background-color: #f1f5f9; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">📄 Archivo subido: ${currentCandidate.cv_filename}</span>` : (!currentCandidate.cvUrl ? '<span style="color: var(--text-muted); font-size: 0.85rem; align-self: center;">Sin CV adjunto</span>' : '')}
+        </div>
     `;
 
     const scoreVal = currentCandidate._score !== null ? `${currentCandidate._score} pts` : '<span style="font-size: 1.1rem; color: #999;">Pendiente de calificar</span>';
@@ -269,12 +272,12 @@ function openModal(uid) {
                      let prevScore = '';
                      let prevFeedback = '';
                      if (currentCandidate.evaluacion && currentCandidate.evaluacion.revisionDetalle) {
-                         const det = currentCandidate.evaluacion.revisionDetalle.find(d => d.id === r.id);
-                         if (det) {
-                             prevScore = det.score;
-                             prevFeedback = det.feedback || '';
-                         }
-                     }
+                        const det = currentCandidate.evaluacion.revisionDetalle.find(d => d.id == r.id); // Usamos == por si difieren entre int y string
+                        if (det) {
+                            prevScore = det.score;
+                            prevFeedback = det.feedback || '';
+                        }
+                    } 
 
                      const disabledAttr = showGrading && currentCandidate._estado === 'calificado' ? 'disabled' : '';
                      gradeHtml = `
@@ -312,6 +315,12 @@ function openModal(uid) {
         : `<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">Aún no hay respuestas guardadas.</p>`;
 
     modalBody.innerHTML = `
+        <div style="margin-bottom: 1.5rem; display: flex; gap: 10px; background: #fafafa; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color); flex-wrap: wrap; align-items: center;">
+            <strong style="font-size: 0.85rem; color: #555; margin-right: 0.5rem;">Acciones:</strong>
+            <button id="btn-copilot-copy" class="btn-primary" style="background-color: #2563eb; width: auto; font-size: 0.85rem; padding: 0.6rem 1rem; margin: 0;">Copiar Datos para IA</button>
+            <button id="btn-copilot-download" class="btn-primary" style="background-color: #10b981; width: auto; font-size: 0.85rem; padding: 0.6rem 1rem; margin: 0;">Descargar Examen para IA</button>
+            <button id="btn-dummy-cv" class="btn-primary" style="background-color: #030309; width: auto; font-size: 0.85rem; padding: 0.6rem 1rem; margin: 0;">Descargar CV</button>
+        </div>
         <div class="metrics-grid">
             <div class="metric-box">
                 <h4>Calificación</h4>
@@ -327,6 +336,55 @@ function openModal(uid) {
     `;
 
     modal.classList.add('active');
+
+    // Funcionalidad de los botones de Copilot
+    const btnCopilotCopy = document.getElementById('btn-copilot-copy');
+    const btnCopilotDownload = document.getElementById('btn-copilot-download');
+    
+    if (btnCopilotCopy || btnCopilotDownload) {
+        let copilotText = `CANDIDATO: ${currentCandidate.nombre_completo}\n`;
+        copilotText += `VACANTE: ${currentCandidate.vacante || 'N/A'}\n`;
+        copilotText += `EMAIL: ${currentCandidate.email}\n`;
+        copilotText += `TELÉFONO: ${currentCandidate.telefono || 'N/A'}\n`;
+        copilotText += `LINKEDIN: ${currentCandidate.linkedinUrl || 'N/A'}\n\n`;
+        copilotText += `RESPUESTAS DEL EXAMEN:\n`;
+        respuestasArr.forEach(r => {
+            copilotText += `\n[Pregunta ${r.id}]: ${r.pregunta}\n`;
+            copilotText += `[Respuesta]: ${r.respuesta || '(Vacío)'}\n`;
+        });
+
+        if (btnCopilotCopy) {
+            btnCopilotCopy.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(copilotText);
+                    alert("Datos copiados al portapapeles correctamente.");
+                } catch (err) {
+                    alert("No se pudo copiar: " + err);
+                }
+            });
+        }
+
+        if (btnCopilotDownload) {
+            btnCopilotDownload.addEventListener('click', () => {
+                const blob = new Blob([copilotText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Examen_${currentCandidate.nombre_completo.replace(/\s+/g, '_')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+    }
+
+    const btnDummyCv = document.getElementById('btn-dummy-cv');
+    if (btnDummyCv) {
+        btnDummyCv.addEventListener('click', () => {
+            alert('Descarga de CV pendiente de almacenamiento');
+        });
+    }
 
     // Attach listeners a los nuevos botones
     const btnAi = document.getElementById('btn-ai-grade');
@@ -422,16 +480,32 @@ function openModal(uid) {
             
             let totalScore = 0;
             const revisionData = [];
+            let isValid = true;
 
             gradeInputs.forEach((input, index) => {
-                const score = parseFloat(input.value) || 0;
-                totalScore += score;
+                const max = parseFloat(input.getAttribute('max'));
+                const score = parseFloat(input.value);
+                const parsedScore = isNaN(score) ? 0 : score;
+                
+                if (!isNaN(max) && parsedScore > max) {
+                    isValid = false;
+                    input.style.borderColor = 'red';
+                } else {
+                    input.style.borderColor = '#ccc';
+                }
+
+                totalScore += parsedScore;
                 revisionData.push({
                     id: input.getAttribute('data-id'),
-                    score: score,
+                    score: parsedScore,
                     feedback: feedbackInputs[index].value
                 });
             });
+
+            if (!isValid) {
+                alert("Error: Algunos puntajes exceden el límite máximo permitido para la pregunta (marcados en rojo).");
+                return; // Bloqueamos el guardado
+            }
 
             btnSaveGrade.textContent = "Guardando...";
             btnSaveGrade.disabled = true;

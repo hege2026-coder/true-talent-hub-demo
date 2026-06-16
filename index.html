@@ -3,56 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - True Talent Hub</title>
+    <title>Login - People Engine</title>
     <link rel="stylesheet" href="./css/index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="login-wrapper">
-        <div class="login-container">
-            <div class="logo">
-                <div class="logo-mark">
-                        T
-                        <div class="red-dot"></div>
-                    </div>
-                    <span class="logo-text">True Talent Hub</span>
+    <div class="split-layout">
+        <!-- Columna Izquierda -->
+        <div class="split-left">
+            <div class="split-left-content">
+                <div class="logo">
+                <img src="./img/PeopleEngine-logo.png" alt="People Engine Logo">
+                <span class="logo-text"><strong>People</strong> <span>Engine</span></span>
             </div>
-            
-            <div class="login-header">
-                <h1>Sign in</h1>
-                <p>Welcome back. Please enter your details.</p>
-            </div>
-
-            <form class="login-form" id="login-form">
-                <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email">
-                </div>
                 
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                <div class="potential-text">
+                    <div>
+                        <span>POT</span>
+                        <span class="potential-outline">ENT</span>
+                        <span>IAL</span>
+                    </div>
                 </div>
 
-                <div class="form-actions">
-                    <label class="remember-me">
-                        <input type="checkbox">
-                        <span>Remember for 30 days</span>
-                    </label>
-                    <a href="#" class="forgot-password">Forgot password?</a>
-                </div>
+            </div>
+        </div>
 
-                <button type="submit" class="btn-primary">Sign in</button>
-            </form>
-            
-            <div class="register-prompt">
-                Don't have an account? <a href="./postulante/registro.html">Apply here</a>
+        <!-- Columna Derecha -->
+        <div class="split-right" style="padding-top: 3rem;">
+            <!-- Logo para mobile -->
+            <div class="mobile-logo-container logo" style="display: none; justify-content: flex-start; padding: 0 3rem; margin-bottom: 2rem;">
+                <img src="./img/PeopleEngine-logo.png" alt="People Engine Logo" style="height: 32px;">
+                <span class="logo-text"><strong>People</strong> <span>Engine</span></span>
+            </div>
+
+            <div class="highlight-box">
+                <h2>Begin your skills evaluation.</h2>
+            </div>
+
+            <div class="login-wrapper">
+                <div class="login-container">
+                    <div class="login-header">
+                        <h1 style="text-align: left; font-size: 2rem; margin-bottom: 0.2rem;">Iniciar sesión</h1>
+                        <p style="text-align: left; margin-bottom: 2rem;">Bienvenido de nuevo. Por favor ingresa tus datos.</p>
+                    </div>
+
+                    <form class="login-form" id="login-form">
+                        <div class="input-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required placeholder="Ingresa tu correo">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="password">Contraseña</label>
+                            <input type="password" id="password" name="password" required placeholder="••••••••">
+                        </div>
+
+                        <div class="form-actions" style="margin-bottom: 2rem;">
+                            <label class="remember-me">
+                                <input type="checkbox">
+                                <span>Recordarme por 30 días</span>
+                            </label>
+                            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width: 100%;">Iniciar sesión</button>
+                    </form>
+                    
+                    <div class="register-prompt" style="text-align: center; margin-top: 2rem;">
+                        ¿No tienes cuenta? <a href="./postulante/registro.html">Postúlate aquí</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        True Talent Hub powered by True Digital Media® 2026
+    <footer class="global-footer">
+        People Engine powered by <strong>True Digital Media®</strong> 2026
     </footer>
 
     <script type="module" src="./js/firebase-config.js"></script>

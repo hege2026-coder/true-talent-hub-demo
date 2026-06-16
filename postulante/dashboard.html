@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - True Talent Hub</title>
+    <title>Dashboard - People Engine</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .dashboard-wrapper {
             flex: 1;
@@ -113,23 +113,20 @@
     </style>
 </head>
 <body>
+    <div class="global-header">
+        <div class="logo">
+            <img src="../img/PeopleEngine-logo.png" alt="People Engine Logo">
+            <span class="logo-text"><strong>People</strong> <span>Engine</span></span>
+        </div>
+        <a id="btn-logout" class="logout-link">CERRAR SESIÓN</a>
+    </div>
+
     <div class="dashboard-wrapper">
         <div class="dashboard-container">
             
             <div id="loader">Cargando tu perfil...</div>
 
             <div id="dashboard-content" class="welcome-card">
-                <div class="header-row">
-                    <div class="logo logo-small">
-                        <div class="logo-mark">
-                        T
-                        <div class="red-dot"></div>
-                    </div>
-                    <span class="logo-text">True Talent Hub</span>
-                    </div>
-                    <a id="btn-logout" class="logout-link">Cerrar sesión</a>
-                </div>
-
                 <div class="login-header" style="text-align: left; margin-bottom: 3rem;">
                     <h1 id="user-greeting">Hola, ...</h1>
                     <p>Bienvenido a tu panel de candidato.</p>
@@ -152,7 +149,7 @@
     </div>
 
     <footer>
-        True Talent Hub powered by True Digital Media® 2026
+        People Engine powered by True Digital Media® 2026
     </footer>
 
     <script type="module">
